@@ -7,7 +7,13 @@ public class DragAndDrop : MonoBehaviour
 {
     private Vector2 offset;
     public Vector2 minBounds;
-    public Vector2 maxBounds; 
+    public Vector2 maxBounds;
+    private Animator anim;
+
+    private void Start()
+    {
+        anim = GetComponent<Animator>();
+    }
     void HandleDragging()
     {
         Vector2 newPosition = mousepos() + offset;       
@@ -30,5 +36,10 @@ public class DragAndDrop : MonoBehaviour
         pos.x = Mathf.Clamp(pos.x, minBounds.x, maxBounds.x);
         pos.y = Mathf.Clamp(pos.y, minBounds.y, maxBounds.y);
         return pos;
+    }
+    public void closeButton()
+    {
+        anim.SetBool("close", true);
+        Destroy(this.gameObject, 1f);
     }
 }

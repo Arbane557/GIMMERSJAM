@@ -12,7 +12,6 @@ public class WindowSpawn : MonoBehaviour
     private Animator anim;
     private void Start()
     {
-        anim = GetComponent<Animator>();    
         StartCoroutine(spawnWindow());
     }
     IEnumerator spawnWindow()
@@ -32,13 +31,5 @@ public class WindowSpawn : MonoBehaviour
         return pos;
     }
 
-    public void closeButton()
-    {
-        Destroy(this.gameObject);
-    }
-
-    private void OnDestroy()
-    {
-        anim.SetTrigger("close");
-    }
+  
 }
