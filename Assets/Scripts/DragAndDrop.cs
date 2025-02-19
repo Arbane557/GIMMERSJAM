@@ -43,17 +43,17 @@ public class DragAndDrop : MonoBehaviour
     }
     private void OnMouseUp()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 0.1f);
+        //Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 0.1f);
 
-        foreach (Collider2D col in colliders)
-        {
-            if (col.gameObject != this.gameObject && col.CompareTag("Window") && windows.Count == 0)
-            {
-                col.gameObject.GetComponent<DragAndDrop>().windows.Add(this.gameObject);
-                gameObject.SetActive(false);
-                break;
-            }
-        }
+        //foreach (Collider2D col in colliders)
+        //{
+        //    if (col.gameObject != this.gameObject && col.CompareTag("Window") && windows.Count == 0)
+        //    {
+        //        col.gameObject.GetComponent<DragAndDrop>().windows.Add(this.gameObject);
+        //        gameObject.SetActive(false);
+        //        break;
+        //    }
+        //}
     }
     Vector2 mousepos()
     {

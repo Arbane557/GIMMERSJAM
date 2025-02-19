@@ -330,8 +330,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d3c927aafaab3747b2ab4507bc27d4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minBounds: {x: -5, y: -3.4}
-  maxBounds: {x: 5, y: 3.4}
+  minBounds: {x: -4, y: -3.4}
+  maxBounds: {x: 4, y: 3.4}
   windows: []
   notification: {fileID: 702849875972529450}
 --- !u!95 &7119640507287065954
