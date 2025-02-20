@@ -114,8 +114,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ebcf94e50cd05a4a92278416bf65240, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minBounds: {x: -2.2, y: -3.4}
-  maxBounds: {x: 1.7, y: 3.4}
+  minBounds: {x: -5, y: -2.2}
+  maxBounds: {x: 5, y: 1.7}
 --- !u!1 &4160869464834155540
 GameObject:
   m_ObjectHideFlags: 0

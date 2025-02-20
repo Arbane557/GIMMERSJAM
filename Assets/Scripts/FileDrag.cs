@@ -2,19 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WorkWindowHandler : MonoBehaviour
+public class FileDrag : MonoBehaviour
 {
     private Vector2 offset;
     public Vector2 minBounds;
     public Vector2 maxBounds;
-    public GameObject fileHolder;
     void OnMouseDown()
     {
+        Debug.Log("Dragged");
         offset = (Vector2)transform.position - mousepos();
     }
     private void Update()
     {
-        if (fileHolder != null) { fileHolder.transform.position = new Vector3(transform.position.x,transform.position.y + 2f, -0.2f); }
+        Vector3 parentPos = transform.parent.position;
+        minBounds = new Vector2(parentPos.x - 2.5f, parentPos.y);
+        maxBounds = new Vector2(parentPos.x + 2.5f, parentPos.y);
     }
     private void OnMouseDrag()
     {

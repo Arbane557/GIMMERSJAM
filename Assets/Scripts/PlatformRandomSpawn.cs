@@ -25,11 +25,7 @@ public class PlatformRandomSpawn : MonoBehaviour
             spawnPlatform();
         }
     }
-    Vector2 clampBorder(Vector2 pos)
-    {
-        pos.x = Mathf.Clamp(pos.x, minBounds.x, maxBounds.x);
-        return pos;
-    }
+   
     void spawnPlatform()
     {
         currentyValue = player.transform.position.y;
