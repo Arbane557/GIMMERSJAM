@@ -6,18 +6,16 @@ using UnityEngine.UI;
 public class MemoryTask : MonoBehaviour
 {
 
-    public Color highlight, covered, wrong;
+    public Color highlight, covered;
     int count = 0;
     int confirmed = 0;
-    public GameObject workParent;
-    public Transform tf;
     private void OnEnable()
-    {     
-        foreach (Transform t in tf)
+    {
+        foreach(Transform t in transform)
         {
-            bool random = Random.Range(1, 4) == 1;
+            bool random = Random.Range(1, 3) == 1;
             t.GetComponent<RawImage>().color = random ? highlight : covered;
-            if (random) { count++; t.name = "target"; }
+            if (random) { count++; t.gameObject.name = "target"; }
         }
         StartCoroutine(turnOff());
     }
@@ -25,7 +23,7 @@ public class MemoryTask : MonoBehaviour
     IEnumerator turnOff()
     {
         yield return new WaitForSeconds(2);
-        foreach (Transform t in tf)
+        foreach (Transform t in transform)
         {
             t.GetComponent<RawImage>().color = covered;
         }
@@ -38,31 +36,9 @@ public class MemoryTask : MonoBehaviour
             Debug.Log("success");
             button.name = "button";
             confirmed++;
-            if (confirmed == count)
-            {
-                count = 0;
-                confirmed = 0;
-                workParent.GetComponent<WorkWindowButton>().addWorkBar();
-                transform.parent.GetComponent<Animator>().SetBool("close", true);
-                gameObject.SetActive(false);
-            }
+            if (confirmed == count) Debug.Log("successssssssssss");
         }
-        else
-        {
-            StartCoroutine(lose());
-        }
+        else Debug.Log("failed");
 
-    }
-
-    IEnumerator lose()
-    {
-        foreach (Transform t in tf) 
-        {
-            t.GetComponent<RawImage>().color = wrong;
-        }
-        yield return new WaitForSeconds(1);
-        workParent.GetComponent<WorkWindowButton>().subtractWorkBar();
-        transform.parent.gameObject.SetActive(false);
-        gameObject.SetActive(false);
     }
 }

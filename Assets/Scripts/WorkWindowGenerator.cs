@@ -6,6 +6,6 @@ public class WorkWindowGenerator : MonoBehaviour
 {
     private void OnEnable()
     {
-        transform.GetChild(Random.Range(0,4)).gameObject.SetActive(true);
+        transform.GetChild(Random.Range(1,1)).gameObject.SetActive(true);
     }
 }

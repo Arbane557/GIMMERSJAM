@@ -1,70 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using TMPro;
 
 public class PlayerMinigame : MonoBehaviour
 {
     private Rigidbody2D rb;
-    public GameObject currentPlatform;
+    private GameObject currentPlatform;
     private float maxHeight;
     public TextMeshProUGUI score;
-    public float bounceForce;
-    public Camera mainCamera;
-    public float blinkDuration = 2f;
-    public float blinkInterval = 0.2f;
-
     private void Start()
     {
         maxHeight = 0;
         rb = GetComponent<Rigidbody2D>();
     }
-
     private void Update()
     {
-        if (transform.position.y > maxHeight) maxHeight = transform.position.y;
+        if(transform.position.y > maxHeight) maxHeight = transform.position.y;
         score.text = "Score : " + Mathf.RoundToInt(maxHeight);
+        if (GetCurrentPlatform() != null) currentPlatform = GetCurrentPlatform().gameObject;
         float movex = Input.GetAxisRaw("Horizontal");
         rb.velocity = new Vector2(movex * 3, rb.velocity.y);
-
-        float loseYThreshold = mainCamera.transform.position.y - 8f;
-        if (transform.position.y < loseYThreshold)
-        {
-            RevivePlayer();
-        }
+        if (transform.position.y < transform.position.y - 10) transform.position = currentPlatform.transform.position + new Vector3(0,1,0);
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    Collider2D GetCurrentPlatform()
     {
-        if (collision.gameObject.CompareTag("Platform") && rb.velocity.y <= 0)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, bounceForce);
-            currentPlatform = collision.gameObject;
-        }
-    }
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 0.1f);
 
-    void RevivePlayer()
-    {
-        if (currentPlatform == null)
+        foreach (Collider2D col in colliders)
         {
-            return;
+            if (col.gameObject != this.gameObject && col.CompareTag("Platform"))
+            {
+                return col;
+            }
         }
-        transform.position = currentPlatform.transform.position + new Vector3(0, 1, 0);
-        rb.velocity = Vector2.zero;
-        StartCoroutine(BlinkEffect());
-    }
-
-    IEnumerator BlinkEffect()
-    {
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
-        if (sr == null) yield break;
-        float elapsed = 0f;
-        while (elapsed < blinkDuration)
-        {
-            sr.enabled = !sr.enabled;
-            yield return new WaitForSeconds(blinkInterval);
-            elapsed += blinkInterval;
-        }
-        sr.enabled = true;
+        return null;
     }
 }

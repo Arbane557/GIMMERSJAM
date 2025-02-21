@@ -14,10 +14,9 @@ public struct Command
 public class TypingTask : MonoBehaviour
 {   
     public List<Command> instructions = new List<Command>();
+    public WorkWindowButton wb;
     public TextMeshProUGUI instructionDisplay;
-    public TextMeshProUGUI timeText;
     public TMP_InputField instructionText;
-    public GameObject workParent;
     private bool confirm;
    
     private void OnEnable()
@@ -26,28 +25,17 @@ public class TypingTask : MonoBehaviour
     }
     void chooseRandomCommand()
     {
-        instructionText.text = "";
         var com = instructions[Random.Range(0, instructions.Count)];
         instructionDisplay.text = com.instruction;
         confirm = com.confirmation;
-        timeText.text = "-" + Random.Range(10, 25) + ":" + Random.Range(10, 61);
     }
     public void confirmButton() {
-
         string text = confirm ? "confirm" : "deny";
-        if (string.Equals(instructionText.text, text, System.StringComparison.OrdinalIgnoreCase))
-        {
+        if (string.Equals(instructionText.text, text, System.StringComparison.OrdinalIgnoreCase)){
             Debug.Log("success");
-            workParent.GetComponent<WorkWindowButton>().addWorkBar();
         }
-        else 
-        { 
-            Debug.Log("failed"); 
-            workParent.GetComponent<WorkWindowButton>().subtractWorkBar(); 
-        }
-        transform.parent.GetComponent<Animator>().SetBool("close", true);
-        gameObject.SetActive(false);
-        
+        else Debug.Log("failed");
+        //wb.openWorkWindow();
     }
 
 }

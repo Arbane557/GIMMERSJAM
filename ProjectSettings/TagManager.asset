@@ -6,7 +6,6 @@ TagManager:
   tags:
   - Window
   - Platform
-  - Work
   layers:
   - Default
   - TransparentFX

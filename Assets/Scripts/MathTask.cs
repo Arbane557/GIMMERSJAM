@@ -10,11 +10,9 @@ public class MathTask : MonoBehaviour
     private int sumNum;
     public TextMeshProUGUI fieldInput;
     public TextMeshProUGUI questionText;
-    public GameObject workParent;
 
     private void OnEnable()
     {
-        sum = "";
         a = Random.Range(10, 100);
         b = Random.Range(10, 100);
         questionText.text = "" + a + " + " + b;
@@ -30,19 +28,9 @@ public class MathTask : MonoBehaviour
     }
     public void enter()
     {
-        if (sum == sumNum.ToString())
-        {
+        if (sum == sumNum.ToString()) {
             Debug.Log("success");
-            workParent.GetComponent<WorkWindowButton>().addWorkBar();
-            transform.parent.GetComponent<Animator>().SetBool("close", true);
-            gameObject.SetActive(false);
-        }
-        else
-        {
-            Debug.Log("failed");
-            workParent.GetComponent<WorkWindowButton>().subtractWorkBar();
-
-        }
+        } else Debug.Log("failed");
 
     }
     public void removeNumber()

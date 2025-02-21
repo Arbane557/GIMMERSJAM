@@ -866,12 +866,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7be846c2d56c4004bb469a7005c90282, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   currentPlatform: {fileID: 0}
   score: {fileID: 491392014}
   bounceForce: 0
   mainCamera: {fileID: 0}
   blinkDuration: 2
   blinkInterval: 0.2
+=======
+  score: {fileID: 491392014}
+>>>>>>> parent of 615be79 (Addition : Fixing gameloop)
 --- !u!1 &782602983
 GameObject:
   m_ObjectHideFlags: 0
@@ -1566,7 +1570,10 @@ MonoBehaviour:
   - {fileID: 1426304264}
   - {fileID: 2087168736}
   - {fileID: 798370166}
+<<<<<<< HEAD
   workParent: {fileID: 0}
+=======
+>>>>>>> parent of 615be79 (Addition : Fixing gameloop)
 --- !u!1 &1426304264 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8772383003099375373, guid: 40db61326a442d84d942d28340a485a6, type: 3}
