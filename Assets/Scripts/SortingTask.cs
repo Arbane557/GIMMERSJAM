@@ -5,6 +5,26 @@ using UnityEngine;
 public class SortingTask : MonoBehaviour
 {
     public GameObject[] fileSprites;
+    public GameObject workParent;
+
+    private void OnEnable()
+    {
+        List<int> numbers = new List<int> { 1, 2, 3, 4 };
+        for (int i = 0; i < numbers.Count; i++)
+        {
+            int randomIndex = Random.Range(i, numbers.Count);
+            int temp = numbers[i];
+            numbers[i] = numbers[randomIndex];
+            numbers[randomIndex] = temp;
+        }
+        
+        for (int i = 0; i < fileSprites.Length; i++)
+        {
+            fileSprites[i].name = numbers[i].ToString();
+            fileSprites[i].GetComponent<FileDrag>().textName.text = fileSprites[i].name;
+        }
+    }
+
     public void CheckOrder()
     {
         System.Array.Sort(fileSprites, (a, b) =>
@@ -19,10 +39,14 @@ public class SortingTask : MonoBehaviour
             if (fileNum != expectedNumber)
             {
                 Debug.Log("Failed");
+                workParent.GetComponent<WorkWindowButton>().subtractWorkBar();
                 return;
             }
         }
-
         Debug.Log("Success");
+        workParent.GetComponent<WorkWindowButton>().addWorkBar();
+        transform.parent.GetComponent<Animator>().SetBool("close", true);
+        gameObject.SetActive(false);
+
     }
 }
