@@ -34,7 +34,7 @@ public class TypingTask : MonoBehaviour
     }
     public void confirmButton() {
 
-        string text = confirm ? "confirm" : "deny";
+        string text = confirm ? "confirm" : "reject";
         if (string.Equals(instructionText.text, text, System.StringComparison.OrdinalIgnoreCase))
         {
             Debug.Log("success");

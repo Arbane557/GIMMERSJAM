@@ -11,22 +11,18 @@ public class DragAndDrop : MonoBehaviour
     public Vector2 maxBounds;
     private Animator anim;
     public List<GameObject> windows;
-    public GameObject notification;
-    private TextMeshProUGUI counter;
+    private PlayerMinigame PM;
+    private WorkWindowButton WB;
+    public GameObject Corn;
+    public GameObject CornUI;
     private void Start()
     {
-        counter = notification.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-        anim = GetComponent<Animator>();
-    }
-    private void Update()
-    {
-        if (windows.Count > 0) 
-        { 
-            notification.SetActive(true);
-            counter.text = "" + windows.Count;
+        if (gameObject.CompareTag("Corn"))
+        {
+            Corn = GameObject.FindGameObjectWithTag("Cornish");
+            StartCoroutine(CornHub()); 
         }
-        else notification.SetActive(false);
-
+        anim = GetComponent<Animator>();
     }
     void HandleDragging()
     {
@@ -40,21 +36,7 @@ public class DragAndDrop : MonoBehaviour
     private void OnMouseDrag()
     {
         HandleDragging();
-    }
-    private void OnMouseUp()
-    {
-        //Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 0.1f);
-
-        //foreach (Collider2D col in colliders)
-        //{
-        //    if (col.gameObject != this.gameObject && col.CompareTag("Window") && windows.Count == 0)
-        //    {
-        //        col.gameObject.GetComponent<DragAndDrop>().windows.Add(this.gameObject);
-        //        gameObject.SetActive(false);
-        //        break;
-        //    }
-        //}
-    }
+    } 
     Vector2 mousepos()
     {
         return Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -79,5 +61,26 @@ public class DragAndDrop : MonoBehaviour
             win.GetComponent<Animator>().SetBool("close", true);
             windows.RemoveAt(windows.Count - 1);
         }
+    }
+    public void Heal()
+    {
+        PM = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMinigame>();
+        if (PM.currHP < PM.maxHP) PM.currHP += 1;
+    }
+
+    public void Protect()
+    {
+        WB = GameObject.FindGameObjectWithTag("Work").GetComponent<WorkWindowButton>();
+        StartCoroutine(WB.protectBuffOn());
+    }
+
+    public IEnumerator CornHub()
+    {
+        yield return new WaitForSeconds(5);
+        CornUI.SetActive(false);
+        Corn.transform.GetChild(0).gameObject.SetActive(true);
+        yield return new WaitForSeconds(5);
+        Corn.transform.GetChild(0).gameObject.SetActive(false);
+        Destroy(this.gameObject);
     }
 }

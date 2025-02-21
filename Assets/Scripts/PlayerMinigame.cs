@@ -13,9 +13,14 @@ public class PlayerMinigame : MonoBehaviour
     public Camera mainCamera;
     public float blinkDuration = 2f;
     public float blinkInterval = 0.2f;
-
+    public GameObject[] hearts;
+    public int currHP;
+    public int maxHP;
+    public GameObject gameOverText;
+   
     private void Start()
     {
+        currHP = maxHP; 
         maxHeight = 0;
         rb = GetComponent<Rigidbody2D>();
     }
@@ -27,10 +32,22 @@ public class PlayerMinigame : MonoBehaviour
         float movex = Input.GetAxisRaw("Horizontal");
         rb.velocity = new Vector2(movex * 3, rb.velocity.y);
 
+        if(currHP < 1)
+        {
+            mainCamera.GetComponent<CameraFollow>().enabled = false;
+            mainCamera.transform.position = new Vector3(0, 0, 0);
+            gameOverText.SetActive(true);
+            gameObject.SetActive(false);
+        }
+
         float loseYThreshold = mainCamera.transform.position.y - 8f;
         if (transform.position.y < loseYThreshold)
         {
             RevivePlayer();
+        }
+        for (int i = 0; i < hearts.Length; i++)
+        {
+            hearts[i].SetActive(i < currHP);
         }
     }
 
@@ -40,11 +57,13 @@ public class PlayerMinigame : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, bounceForce);
             currentPlatform = collision.gameObject;
+            
         }
     }
 
     void RevivePlayer()
     {
+        currHP--;
         if (currentPlatform == null)
         {
             return;

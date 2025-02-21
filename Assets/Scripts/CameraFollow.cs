@@ -8,7 +8,7 @@ public class CameraFollow : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (target.position.y > transform.position.y)
+        if (target.position.y > transform.position.y && target!=null)
         {
             Vector3 newpos = new Vector3(transform.position.x, target.transform.position.y, transform.position.z);
             transform.position = newpos;

@@ -15,15 +15,20 @@ public class WorkWindowButton : MonoBehaviour
     public Slider workBar;
     public float workBarCurr;
     public float workBarMax;
+    public bool protectBuff;
+    public GameObject protectSprite;
+    public Color normalColor, protectColor;
     bool on;
     private void Start()
     {
-        workBarCurr = 0.1f * workBarMax;
+        workBarCurr = 0.5f * workBarMax;
         notifCount = 0;
         StartCoroutine(generateTask());
     }
     private void Update()
     {
+        workBarCurr -=  (protectBuff ? 0 : 0.01f) * workBarMax * Time.deltaTime;
+        protectSprite.SetActive(protectBuff);
         workBar.value = workBarCurr/workBarMax;
         on = !(notifCount == 0);
         notification.transform.parent.gameObject.SetActive(on);
@@ -66,5 +71,14 @@ public class WorkWindowButton : MonoBehaviour
     public void subtractWorkBar()
     {
         workBarCurr -= 0.1f * workBarMax;
+    }
+
+    public IEnumerator protectBuffOn()
+    {
+        protectBuff = true;
+        workBar.fillRect.GetComponent<RawImage>().color = protectColor;
+        yield return new WaitForSeconds(10);
+        workBar.fillRect.GetComponent<RawImage>().color = normalColor;
+        protectBuff = false;
     }
 }

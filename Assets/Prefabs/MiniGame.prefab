@@ -584,8 +584,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7be846c2d56c4004bb469a7005c90282, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentPlatform: {fileID: 0}
   score: {fileID: 0}
-  bounceForce: 6
+  bounceForce: 9
+  mainCamera: {fileID: 3884760925786429325}
+  blinkDuration: 2
+  blinkInterval: 0.2
+  hearts:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  currHP: 0
+  maxHP: 3
 --- !u!1 &7555508682625831071
 GameObject:
   m_ObjectHideFlags: 0

@@ -26,7 +26,7 @@ public class WindowSpawn : MonoBehaviour
     {
         GameObject prefab = GetRandomPrefab();
         GameObject win = Instantiate(prefab);
-        Vector2 pos = new Vector2(Random.Range(minBounds.x, maxBounds.x), Random.Range(minBounds.y, maxBounds.y));
+        Vector2 pos = new Vector3(Random.Range(minBounds.x, maxBounds.x), Random.Range(minBounds.y, maxBounds.y), -0.1f);
         win.transform.position = ClampBorder(pos);
 
         //if (prefab == window[1] || prefab == window[2])
