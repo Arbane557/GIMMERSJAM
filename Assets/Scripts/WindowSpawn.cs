@@ -29,10 +29,10 @@ public class WindowSpawn : MonoBehaviour
         Vector2 pos = new Vector2(Random.Range(minBounds.x, maxBounds.x), Random.Range(minBounds.y, maxBounds.y));
         win.transform.position = ClampBorder(pos);
 
-        if (prefab == window[1] || prefab == window[2])
-        {
-            Destroy(win, 5f);
-        }
+        //if (prefab == window[1] || prefab == window[2])
+        //{
+        //    Destroy(win, 5f);
+        //}
 
         yield return new WaitForSeconds(spawnInterval);
 
@@ -43,14 +43,8 @@ public class WindowSpawn : MonoBehaviour
 
     GameObject GetRandomPrefab()
     {
-        float rand = Random.value;
-
-        if (rand < 0.4f)  // 
-            return window[0]; 
-        else if (rand < 0.7f)
-            return window[1]; 
-        else  // 
-            return window[2]; 
+        int rand = Random.Range(0, window.Length);
+        return window[rand];
     }
 
     Vector2 ClampBorder(Vector2 pos)
