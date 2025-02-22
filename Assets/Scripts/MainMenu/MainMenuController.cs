@@ -7,21 +7,26 @@ using TMPro;
 public class MainMenuCo : MonoBehaviour
 {
     public TMP_InputField input;
-    public GameObject Start;
+    public GameObject StartObj;
     public GameObject End;
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
+    public Animator animator;
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Return))
         {
             if (string.Equals(input.text, "enter", System.StringComparison.OrdinalIgnoreCase))
             {
-                
+                StartObj.SetActive(true);
+                animator.SetBool("start", true);
+            }
+            else if (string.Equals(input.text, "quit", System.StringComparison.OrdinalIgnoreCase))
+            {
+                End.SetActive(true);
+                animator.SetBool("end", true);
+            }
+            else
+            {
+                input.text = "";
             }
         }
     }
@@ -29,19 +34,6 @@ public class MainMenuCo : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
-
-    public void Option()
-    {
-        OptionPanel.alpha = 1;
-        OptionPanel.blocksRaycasts = true;
-    }
-
-    public void Back()
-    {
-        OptionPanel.alpha = 0;
-        OptionPanel.blocksRaycasts = false;
-    }
-
     public void QuitGame()
     {
         Application.Quit();
