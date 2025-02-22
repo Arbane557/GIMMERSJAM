@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using TMPro;
 public class MainMenuCo : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public TMP_InputField input;
+    public GameObject Start;
+    public GameObject End;
     void Start()
     {
         
@@ -14,11 +17,14 @@ public class MainMenuCo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            if (string.Equals(input.text, "enter", System.StringComparison.OrdinalIgnoreCase))
+            {
+                
+            }
+        }
     }
-
-    public CanvasGroup OptionPanel;
-
     public void PlayGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
