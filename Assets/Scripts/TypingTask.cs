@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using TMPro;
 using UnityEngine.UI;
 
@@ -22,8 +23,18 @@ public class TypingTask : MonoBehaviour
    
     private void OnEnable()
     {
+        EventSystem.current.SetSelectedGameObject(null);
         chooseRandomCommand();
     }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            Debug.Log("enter");
+            confirmButton();
+        }
+    }
+
     void chooseRandomCommand()
     {
         instructionText.text = "";

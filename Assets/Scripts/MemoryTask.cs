@@ -6,15 +6,17 @@ using UnityEngine.UI;
 public class MemoryTask : MonoBehaviour
 {
 
-    public Color highlight, covered, wrong;
+    public Color highlight, covered, wrong, chosen;
     int count = 0;
     int confirmed = 0;
     public GameObject workParent;
     public Transform tf;
     private void OnEnable()
     {     
+
         foreach (Transform t in tf)
         {
+            t.GetComponent<Button>().enabled = false;
             bool random = Random.Range(1, 4) == 1;
             t.GetComponent<RawImage>().color = random ? highlight : covered;
             if (random) { count++; t.name = "target"; }
@@ -28,15 +30,16 @@ public class MemoryTask : MonoBehaviour
         foreach (Transform t in tf)
         {
             t.GetComponent<RawImage>().color = covered;
+            t.GetComponent<Button>().enabled = true;
         }
     }
-
     public void confirm(GameObject button)
     {
         if (button.name == "target")
         {
             Debug.Log("success");
             button.name = "button";
+            button.GetComponent<RawImage>().color = chosen;
             confirmed++;
             if (confirmed == count)
             {
@@ -49,8 +52,11 @@ public class MemoryTask : MonoBehaviour
         }
         else
         {
+            count = 0;
+            confirmed = 0;
             StartCoroutine(lose());
         }
+        
 
     }
 

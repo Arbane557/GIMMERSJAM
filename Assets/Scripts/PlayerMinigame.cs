@@ -57,7 +57,15 @@ public class PlayerMinigame : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, bounceForce);
             currentPlatform = collision.gameObject;
-            
+            if (collision.gameObject == currentPlatform)
+            {
+                currentPlatform.transform.localScale = new Vector2(currentPlatform.transform.localScale.x - 0.5f, currentPlatform.transform.localScale.y);
+                if (currentPlatform.transform.localScale.x <= 0)
+                {
+                    currentPlatform.GetComponent<Collider2D>().enabled = false;
+                    currentPlatform.GetComponent<SpriteRenderer>().enabled = false;
+                }
+            }
         }
     }
 
@@ -68,6 +76,9 @@ public class PlayerMinigame : MonoBehaviour
         {
             return;
         }
+        currentPlatform.transform.localScale = new Vector2(1.81f, currentPlatform.transform.localScale.y);
+        currentPlatform.GetComponent<Collider2D>().enabled = true;
+        currentPlatform.GetComponent<SpriteRenderer>().enabled = true;
         transform.position = currentPlatform.transform.position + new Vector3(0, 1, 0);
         rb.velocity = Vector2.zero;
         StartCoroutine(BlinkEffect());

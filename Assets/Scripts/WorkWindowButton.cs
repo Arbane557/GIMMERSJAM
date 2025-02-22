@@ -18,16 +18,17 @@ public class WorkWindowButton : MonoBehaviour
     public bool protectBuff;
     public GameObject protectSprite;
     public Color normalColor, protectColor;
+    public float reducing, gain, penalty;
     bool on;
     private void Start()
     {
-        workBarCurr = 0.5f * workBarMax;
+        workBarCurr = 0.4f * workBarMax;
         notifCount = 0;
         StartCoroutine(generateTask());
     }
     private void Update()
     {
-        workBarCurr -=  (protectBuff ? 0 : 0.01f) * workBarMax * Time.deltaTime;
+        workBarCurr -=  (protectBuff ? 0 : reducing) * workBarMax * Time.deltaTime;
         protectSprite.SetActive(protectBuff);
         workBar.value = workBarCurr/workBarMax;
         on = !(notifCount == 0);
@@ -49,7 +50,7 @@ public class WorkWindowButton : MonoBehaviour
             }
             notifCount--;
         }
-        else
+        else if (WorkWindowPrefab.activeSelf == false)
         {
             WorkFinishedPrefab.SetActive(true);
         }
@@ -66,18 +67,24 @@ public class WorkWindowButton : MonoBehaviour
     }
     public void addWorkBar()
     {
-        workBarCurr += 0.05f * workBarMax;
+        workBarCurr += gain * workBarMax;
     }
     public void subtractWorkBar()
     {
-        workBarCurr -= 0.1f * workBarMax;
+        workBarCurr -= penalty * workBarMax;
     }
 
     public IEnumerator protectBuffOn()
     {
         protectBuff = true;
         workBar.fillRect.GetComponent<RawImage>().color = protectColor;
-        yield return new WaitForSeconds(10);
+        StartCoroutine(countdown());
+        yield return null;
+    }
+
+    public IEnumerator countdown()
+    {
+        yield return new WaitForSeconds(5);
         workBar.fillRect.GetComponent<RawImage>().color = normalColor;
         protectBuff = false;
     }

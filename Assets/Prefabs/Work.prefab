@@ -255,6 +255,7 @@ MonoBehaviour:
   highlight: {r: 0.86415094, g: 0.86415094, b: 0.86415094, a: 1}
   covered: {r: 0.4037736, g: 0.4037736, b: 0.4037736, a: 1}
   wrong: {r: 1, g: 0, b: 0, a: 1}
+  chosen: {r: 0.7528302, g: 1, b: 0.7528302, a: 1}
   workParent: {fileID: 706937674602049352}
   tf: {fileID: 6246289032290857010}
 --- !u!1 &373415144788589818
@@ -440,6 +441,13 @@ MonoBehaviour:
   workBar: {fileID: 0}
   workBarCurr: 0
   workBarMax: 10
+  protectBuff: 0
+  protectSprite: {fileID: 0}
+  normalColor: {r: 0.29411766, g: 1, b: 0.32941177, a: 1}
+  protectColor: {r: 1, g: 1, b: 1, a: 1}
+  reducing: 0.0045
+  gain: 0.08
+  penalty: 0.1
 --- !u!1 &781725741299373466
 GameObject:
   m_ObjectHideFlags: 0
@@ -2220,7 +2228,7 @@ MonoBehaviour:
   m_ReadOnly: 0
   m_RichText: 1
   m_GlobalFontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_OnFocusSelectAll: 1
+  m_OnFocusSelectAll: 0
   m_ResetOnDeActivation: 1
   m_RestoreOriginalTextOnEscape: 1
   m_isRichTextEditingAllowed: 0
@@ -5233,6 +5241,10 @@ MonoBehaviour:
   fieldInput: {fileID: 3711951709357891671}
   questionText: {fileID: 3437841624435638266}
   workParent: {fileID: 706937674602049352}
+  red: {r: 0.5686275, g: 0.14901961, b: 0.08235294, a: 1}
+  normal: {r: 0.58431375, g: 0.5803922, b: 0.5764706, a: 1}
+  blinkDuration: 1
+  blinkInterval: 0.2
 --- !u!61 &854513733158805470
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6901,7 +6913,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &236790461418195017
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11302,8 +11314,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   instructions:
+  - instruction: 'Your coworker wants to embezzle project funds for Suisei merch.
+      Allow it? '
+    confirmation: 0
+  - instruction: 'The system suggest deleting System32 to save space. Proceed? '
+    confirmation: 0
   - instruction: '"Your coworker wants to sell the company''s car for $20" '
     confirmation: 0
+  - instruction: The fire alarm is ringing. Should we evacuate the building?
+    confirmation: 1
+  - instruction: 'A coworker asks if you want to save the current work progress.
+      Proceed? '
+    confirmation: 1
+  - instruction: 'The security camera caught unusual activity. Review the footage? '
+    confirmation: 1
   instructionDisplay: {fileID: 1456299861456646215}
   timeText: {fileID: 3224849634737867951}
   instructionText: {fileID: 2543840961561026076}

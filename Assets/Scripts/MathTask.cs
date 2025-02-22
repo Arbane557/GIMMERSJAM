@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class MathTask : MonoBehaviour
 {
@@ -11,7 +12,9 @@ public class MathTask : MonoBehaviour
     public TextMeshProUGUI fieldInput;
     public TextMeshProUGUI questionText;
     public GameObject workParent;
-
+    public Color red, normal;
+    public float blinkDuration = 2f;
+    public float blinkInterval = 0.2f;
     private void OnEnable()
     {
         sum = "";
@@ -41,12 +44,25 @@ public class MathTask : MonoBehaviour
         {
             Debug.Log("failed");
             workParent.GetComponent<WorkWindowButton>().subtractWorkBar();
-
-        }
-
+            StartCoroutine(wrong());
+        }     
     }
     public void removeNumber()
     {
         sum = sum.Remove(sum.Length - 1, 1);
+    }
+    IEnumerator wrong()
+    {
+        float elapsed = 0f;
+        while (elapsed < blinkDuration)
+        {
+            yield return new WaitForSeconds(blinkInterval);
+            transform.GetChild(0).transform.GetComponent<RawImage>().color = red;
+            yield return new WaitForSeconds(blinkInterval);
+            transform.GetChild(0).transform.GetComponent<RawImage>().color = normal;
+            elapsed += blinkInterval;
+        }
+        transform.parent.GetComponent<Animator>().SetBool("close", true);
+        gameObject.SetActive(false);
     }
 }

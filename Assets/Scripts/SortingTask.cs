@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SortingTask : MonoBehaviour
 {
     public GameObject[] fileSprites;
     public GameObject workParent;
-
+    public GameObject childMain;
+    public Color red, normal;
+    public float blinkDuration = 2f;
+    public float blinkInterval = 0.2f;
     private void OnEnable()
     {
         List<int> numbers = new List<int> { 1, 2, 3, 4 };
@@ -40,6 +44,7 @@ public class SortingTask : MonoBehaviour
             {
                 Debug.Log("Failed");
                 workParent.GetComponent<WorkWindowButton>().subtractWorkBar();
+                StartCoroutine(wrong());
                 return;
             }
         }
@@ -48,5 +53,20 @@ public class SortingTask : MonoBehaviour
         transform.parent.GetComponent<Animator>().SetBool("close", true);
         gameObject.SetActive(false);
 
+    }
+
+    IEnumerator wrong()
+    {
+        float elapsed = 0f;
+        while (elapsed < blinkDuration)
+        {
+            yield return new WaitForSeconds(blinkInterval);
+            childMain.transform.GetChild(0).transform.GetComponent<RawImage>().color = red;
+            yield return new WaitForSeconds(blinkInterval);
+            childMain.transform.GetChild(0).transform.GetComponent<RawImage>().color = normal;
+            elapsed += blinkInterval;
+        }
+        transform.parent.GetComponent<Animator>().SetBool("close", true);
+        gameObject.SetActive(false);
     }
 }

@@ -46,10 +46,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   window:
   - {fileID: 2097026227256466361, guid: 8b0a875eeec4c114089af4054ab69f5f, type: 3}
-  - {fileID: 2097026227256466361, guid: 36edad8d5f00232488049c5e1fc5c053, type: 3}
-  - {fileID: 2097026227256466361, guid: 81a5754713c8d0a48a85b418057c55bd, type: 3}
+  - {fileID: 2097026227256466361, guid: b2c28c86256685e4aa5b67b644675967, type: 3}
+  - {fileID: 2097026227256466361, guid: 808bdcd265c8e914794f2bab9ba27447, type: 3}
+  - {fileID: 2097026227256466361, guid: 8f3278abffeccd643a025304ce6f0c6c, type: 3}
+  - {fileID: 2097026227256466361, guid: 6f6997595882ec74fa44b7996d51e98b, type: 3}
   minBounds: {x: -5, y: -3.4}
   maxBounds: {x: 5, y: 3.4}
-  startInterval: 5
-  minInterval: 2
+  startInterval: 6
+  minInterval: 3
   decreaseRate: 0.05

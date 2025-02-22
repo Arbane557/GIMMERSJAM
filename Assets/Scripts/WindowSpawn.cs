@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 public class WindowSpawn : MonoBehaviour
 {
@@ -29,11 +30,6 @@ public class WindowSpawn : MonoBehaviour
         Vector2 pos = new Vector3(Random.Range(minBounds.x, maxBounds.x), Random.Range(minBounds.y, maxBounds.y), -0.1f);
         win.transform.position = ClampBorder(pos);
 
-        //if (prefab == window[1] || prefab == window[2])
-        //{
-        //    Destroy(win, 5f);
-        //}
-
         yield return new WaitForSeconds(spawnInterval);
 
         elapsedTime += spawnInterval;
@@ -43,8 +39,10 @@ public class WindowSpawn : MonoBehaviour
 
     GameObject GetRandomPrefab()
     {
-        int rand = Random.Range(0, window.Length);
-        return window[rand];
+        int rand = Random.Range(0, 8);
+        if (rand <= 4) return window[0];
+        else if (rand <= 6) return window[Random.Range(1, 4)];
+        else return window[Random.Range(4, 6)];
     }
 
     Vector2 ClampBorder(Vector2 pos)

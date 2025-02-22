@@ -15,6 +15,10 @@ public class DragAndDrop : MonoBehaviour
     private WorkWindowButton WB;
     public GameObject Corn;
     public GameObject CornUI;
+    public GameObject Cow;
+    public GameObject CowUI;
+    public GameObject Scare;
+    public GameObject ScareUI;
     private void Start()
     {
         if (gameObject.CompareTag("Corn"))
@@ -22,7 +26,21 @@ public class DragAndDrop : MonoBehaviour
             Corn = GameObject.FindGameObjectWithTag("Cornish");
             StartCoroutine(CornHub()); 
         }
+        if (gameObject.CompareTag("Cow"))
+        {
+            Cow = GameObject.FindGameObjectWithTag("Cowish");
+            StartCoroutine(CowHub());
+        }
+        if (gameObject.CompareTag("Scare"))
+        {
+            Scare = GameObject.FindGameObjectWithTag("Scarish");
+            StartCoroutine(ScareHub());
+        }
         anim = GetComponent<Animator>();
+        if (GameObject.FindGameObjectWithTag("Player")!= null) 
+            PM = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMinigame>();
+        if (GameObject.FindGameObjectWithTag("Work")!= null)
+            WB = GameObject.FindGameObjectWithTag("Work").GetComponent<WorkWindowButton>();
     }
     void HandleDragging()
     {
@@ -64,14 +82,15 @@ public class DragAndDrop : MonoBehaviour
     }
     public void Heal()
     {
-        PM = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMinigame>();
+        
         if (PM.currHP < PM.maxHP) PM.currHP += 1;
+        Destroy(this.gameObject);
     }
 
     public void Protect()
     {
-        WB = GameObject.FindGameObjectWithTag("Work").GetComponent<WorkWindowButton>();
         StartCoroutine(WB.protectBuffOn());
+        Destroy(this.gameObject);
     }
 
     public IEnumerator CornHub()
@@ -82,5 +101,31 @@ public class DragAndDrop : MonoBehaviour
         yield return new WaitForSeconds(5);
         Corn.transform.GetChild(0).gameObject.SetActive(false);
         Destroy(this.gameObject);
+    }
+    public IEnumerator CowHub()
+    {
+        yield return new WaitForSeconds(5);
+        CowUI.SetActive(false);
+        Cow.transform.GetChild(0).gameObject.SetActive(true);
+        yield return new WaitForSeconds(7);
+        Cow.transform.GetChild(0).gameObject.SetActive(false);
+        Destroy(this.gameObject);
+    }
+    public IEnumerator ScareHub()
+    {
+        yield return new WaitForSeconds(5);
+        ScareUI.SetActive(false);
+        Scare.transform.GetChild(0).gameObject.SetActive(true);
+        yield return new WaitForSeconds(3);
+        Scare.transform.GetChild(0).gameObject.SetActive(false);
+        Destroy(this.gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        if (gameObject.CompareTag("Corn")) Corn.transform.GetChild(0).gameObject.SetActive(false);
+        if (gameObject.CompareTag("Cow")) Cow.transform.GetChild(0).gameObject.SetActive(false);
+        if (gameObject.CompareTag("Scare")) Scare.transform.GetChild(0).gameObject.SetActive(false);
+
     }
 }
