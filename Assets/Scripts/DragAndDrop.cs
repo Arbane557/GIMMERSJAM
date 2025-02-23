@@ -100,9 +100,9 @@ public class DragAndDrop : MonoBehaviour
     public IEnumerator CornHub()
     {
         yield return new WaitForSeconds(5);
-        Sound.PlaySFX(1);
         CornUI.SetActive(false);
         Corn.transform.GetChild(0).gameObject.SetActive(true);
+        Sound.PlaySFX(1);
         yield return new WaitForSeconds(5);
         Corn.transform.GetChild(0).gameObject.SetActive(false);
         Destroy(this.gameObject);
@@ -110,9 +110,9 @@ public class DragAndDrop : MonoBehaviour
     public IEnumerator CowHub()
     {
         yield return new WaitForSeconds(5);
-        Sound.PlaySFX(2);
         CowUI.SetActive(false);
         Cow.transform.GetChild(0).gameObject.SetActive(true);
+        Sound.PlaySFX(2);
         yield return new WaitForSeconds(7);
         Cow.transform.GetChild(0).gameObject.SetActive(false);
         Destroy(this.gameObject);
@@ -120,10 +120,10 @@ public class DragAndDrop : MonoBehaviour
     public IEnumerator ScareHub()
     {
         yield return new WaitForSeconds(5);
-        Sound.PlaySFX(9);
         ScareUI.SetActive(false);
         Scare.transform.GetChild(0).gameObject.SetActive(true);
-        yield return new WaitForSeconds(3);
+        Sound.PlaySFX(9);
+        yield return new WaitForSeconds(2);
         Scare.transform.GetChild(0).gameObject.SetActive(false);
         Destroy(this.gameObject);
     }

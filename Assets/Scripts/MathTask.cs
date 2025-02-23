@@ -42,7 +42,7 @@ public class MathTask : MonoBehaviour
                 Debug.Log("success");
                 workParent.GetComponent<WorkWindowButton>().addWorkBar();
                 transform.parent.GetComponent<Animator>().SetBool("close", true);
-                done = true;
+                done = false;
                 gameObject.SetActive(false);
             }
             else

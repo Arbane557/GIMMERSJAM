@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerMinigame : MonoBehaviour
 {
@@ -17,38 +18,54 @@ public class PlayerMinigame : MonoBehaviour
     public int currHP;
     public int maxHP;
     public GameObject gameOverText;
-   
+    public GameObject gameEssence;
+    public GameObject gameWindow;
+    public GameObject gameoverScreen;
+    bool gameover;
+    public float duration = 2.0f;
+    public AudioManager Sound;
+
     private void Start()
     {
         currHP = maxHP; 
         maxHeight = 0;
         rb = GetComponent<Rigidbody2D>();
+        Sound = GameObject.FindGameObjectWithTag("Sound").GetComponent<AudioManager>();
+
     }
 
     private void Update()
     {
-        if (transform.position.y > maxHeight) maxHeight = transform.position.y;
-        score.text = "Score : " + Mathf.RoundToInt(maxHeight);
-        float movex = Input.GetAxisRaw("Horizontal");
-        transform.rotation = (movex >= 0 ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 180, 0));
-        rb.velocity = new Vector2(movex * 3, rb.velocity.y);
+        if (!gameover)
+        {
+            if (transform.position.y > maxHeight) maxHeight = transform.position.y;
+            score.text = "Score : " + Mathf.RoundToInt(maxHeight);
+            float movex = Input.GetAxisRaw("Horizontal");
+            transform.rotation = (movex >= 0 ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 180, 0));
+            rb.velocity = new Vector2(movex * 3, rb.velocity.y);
 
-        if(currHP < 1)
-        {
-            mainCamera.GetComponent<CameraFollow>().enabled = false;
-            mainCamera.transform.position = new Vector3(0, 0, 0);
-            gameOverText.SetActive(true);
-            gameObject.SetActive(false);
-        }
+            if (currHP < 1)
+            {
+                mainCamera.GetComponent<CameraFollow>().enabled = false;
+                mainCamera.transform.position = new Vector3(0, 0, 0);
+                gameOverText.SetActive(true);
+                GetComponent<SpriteRenderer>().enabled = false;
+                gameover = true;
+            }
 
-        float loseYThreshold = mainCamera.transform.position.y - 8f;
-        if (transform.position.y < loseYThreshold)
-        {
-            RevivePlayer();
+            float loseYThreshold = mainCamera.transform.position.y - 8f;
+            if (transform.position.y < loseYThreshold)
+            {
+                RevivePlayer();
+            }
+            for (int i = 0; i < hearts.Length; i++)
+            {
+                hearts[i].SetActive(i < currHP);
+            }
         }
-        for (int i = 0; i < hearts.Length; i++)
+        else
         {
-            hearts[i].SetActive(i < currHP);
+            StartCoroutine(lose());
         }
     }
 
@@ -97,5 +114,30 @@ public class PlayerMinigame : MonoBehaviour
             elapsed += blinkInterval;
         }
         sr.enabled = true;
+    }
+
+    IEnumerator lose()
+    {
+        gameEssence.SetActive(false);
+        Sound.gameObject.SetActive(false);
+        yield return new WaitForSeconds(2);
+
+        Vector3 startPosition = gameWindow.transform.position;
+        Vector3 targetPosition = Vector3.zero;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            gameWindow.transform.position = Vector3.Lerp(startPosition, targetPosition, elapsed / duration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        gameWindow.transform.position = targetPosition;
+        yield return new WaitForSeconds(2);
+        gameWindow.SetActive(false);
+        gameoverScreen.SetActive(true);
+        yield return new WaitForSeconds(7);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+
     }
 }

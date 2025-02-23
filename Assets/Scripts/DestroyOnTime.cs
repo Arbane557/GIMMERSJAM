@@ -10,7 +10,7 @@ public class DestroyOnTime : MonoBehaviour
     }
     IEnumerator destroyTime()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(gameObject.CompareTag("Sui") ? 6 : 3);
         Destroy(this.gameObject);
     }
 }

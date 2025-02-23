@@ -43,6 +43,8 @@ public class WindowSpawn : MonoBehaviour
     GameObject GetRandomPrefab()
     {
         int rand = Random.Range(0, 8);
+        int suirand = Random.Range(0, 15);
+        if (suirand == 7) { Instantiate(window[7]); Debug.Log("sui!"); }
         if (rand <= 4)  return window[0];
         else if (rand <= 6) return window[Random.Range(1, 4)];
         else return window[Random.Range(4, 7)];

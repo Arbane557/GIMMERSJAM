@@ -75,13 +75,15 @@ public class GachaSystem : MonoBehaviour
 
     IEnumerator win()
     {
-        Instantiate(bigWin);
+        var win = Instantiate(bigWin);
+        win.transform.position = transform.position;
         yield return new WaitForSeconds(2);
         Destroy(transform.parent.gameObject);       
     }
     IEnumerator loss()
     {
-        Instantiate(bigLoss);
+        var loss = Instantiate(bigLoss);
+        loss.transform.position = transform.position;
         yield return new WaitForSeconds(2);
         Destroy(transform.parent.gameObject);
     }

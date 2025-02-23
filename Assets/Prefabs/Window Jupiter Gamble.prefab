@@ -829,6 +829,7 @@ MonoBehaviour:
   CowUI: {fileID: 0}
   Scare: {fileID: 0}
   ScareUI: {fileID: 0}
+  Sound: {fileID: 0}
 --- !u!95 &7119640507287065954
 Animator:
   serializedVersion: 5
@@ -1124,7 +1125,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 15
+  m_SortingOrder: 14
   m_TargetDisplay: 0
 --- !u!114 &8754309303205937383
 MonoBehaviour:
@@ -1642,6 +1643,7 @@ MonoBehaviour:
   spinInterval: 0.1
   bigWin: {fileID: 783323609264023038, guid: 75c3979f6659d87458758b1846af7791, type: 3}
   bigLoss: {fileID: 3417736928144002070, guid: 2a6b68b3fe3d72d43944910d611d9e89, type: 3}
+  Sound: {fileID: 0}
 --- !u!1 &6339563530038992922
 GameObject:
   m_ObjectHideFlags: 0
