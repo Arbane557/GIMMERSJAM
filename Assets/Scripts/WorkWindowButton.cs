@@ -20,17 +20,20 @@ public class WorkWindowButton : MonoBehaviour
     public Color normalColor, protectColor;
     public float reducing, gain, penalty;
     bool on;
+    public AudioManager Sound;
     private void Start()
     {
         workBarCurr = 0.4f * workBarMax;
         notifCount = 0;
         StartCoroutine(generateTask());
+        Sound = GameObject.FindGameObjectWithTag("Sound").GetComponent<AudioManager>();
     }
     private void Update()
     {
         workBarCurr -=  (protectBuff ? 0 : reducing) * workBarMax * Time.deltaTime;
         protectSprite.SetActive(protectBuff);
         workBar.value = workBarCurr/workBarMax;
+        if (workBarCurr < 0) workBarCurr = 0;
         on = !(notifCount == 0);
         notification.transform.parent.gameObject.SetActive(on);
     }
@@ -61,6 +64,7 @@ public class WorkWindowButton : MonoBehaviour
         while (true)
         {          
             yield return new WaitForSeconds(10);
+            Sound.PlaySFX(3);
             notifCount++;
             notification.text = notifCount.ToString();
         }

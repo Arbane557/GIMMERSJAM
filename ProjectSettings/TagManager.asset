@@ -13,6 +13,7 @@ TagManager:
   - Cow
   - Scare
   - Scarish
+  - Sound
   layers:
   - Default
   - TransparentFX

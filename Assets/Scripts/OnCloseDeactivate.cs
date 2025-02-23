@@ -8,4 +8,9 @@ public class OnCloseDeactivate : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
+
+    public void close()
+    {
+        GetComponent<Animator>().SetBool("close", true);
+    }
 }

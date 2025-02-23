@@ -19,8 +19,12 @@ public class DragAndDrop : MonoBehaviour
     public GameObject CowUI;
     public GameObject Scare;
     public GameObject ScareUI;
+    public AudioManager Sound;
+
     private void Start()
     {
+        Sound = GameObject.FindGameObjectWithTag("Sound").GetComponent<AudioManager>();
+
         if (gameObject.CompareTag("Corn"))
         {
             Corn = GameObject.FindGameObjectWithTag("Cornish");
@@ -81,21 +85,22 @@ public class DragAndDrop : MonoBehaviour
         }
     }
     public void Heal()
-    {
-        
+    {     
         if (PM.currHP < PM.maxHP) PM.currHP += 1;
+        Sound.PlaySFX(6);
         Destroy(this.gameObject);
     }
-
     public void Protect()
     {
         StartCoroutine(WB.protectBuffOn());
+        Sound.PlaySFX(8);
         Destroy(this.gameObject);
     }
-
+    
     public IEnumerator CornHub()
     {
         yield return new WaitForSeconds(5);
+        Sound.PlaySFX(1);
         CornUI.SetActive(false);
         Corn.transform.GetChild(0).gameObject.SetActive(true);
         yield return new WaitForSeconds(5);
@@ -105,6 +110,7 @@ public class DragAndDrop : MonoBehaviour
     public IEnumerator CowHub()
     {
         yield return new WaitForSeconds(5);
+        Sound.PlaySFX(2);
         CowUI.SetActive(false);
         Cow.transform.GetChild(0).gameObject.SetActive(true);
         yield return new WaitForSeconds(7);
@@ -114,6 +120,7 @@ public class DragAndDrop : MonoBehaviour
     public IEnumerator ScareHub()
     {
         yield return new WaitForSeconds(5);
+        Sound.PlaySFX(9);
         ScareUI.SetActive(false);
         Scare.transform.GetChild(0).gameObject.SetActive(true);
         yield return new WaitForSeconds(3);
@@ -126,6 +133,5 @@ public class DragAndDrop : MonoBehaviour
         if (gameObject.CompareTag("Corn")) Corn.transform.GetChild(0).gameObject.SetActive(false);
         if (gameObject.CompareTag("Cow")) Cow.transform.GetChild(0).gameObject.SetActive(false);
         if (gameObject.CompareTag("Scare")) Scare.transform.GetChild(0).gameObject.SetActive(false);
-
     }
 }

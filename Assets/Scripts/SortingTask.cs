@@ -11,6 +11,7 @@ public class SortingTask : MonoBehaviour
     public Color red, normal;
     public float blinkDuration = 2f;
     public float blinkInterval = 0.2f;
+    bool done;
     private void OnEnable()
     {
         List<int> numbers = new List<int> { 1, 2, 3, 4 };
@@ -31,28 +32,32 @@ public class SortingTask : MonoBehaviour
 
     public void CheckOrder()
     {
-        System.Array.Sort(fileSprites, (a, b) =>
-            a.transform.position.x.CompareTo(b.transform.position.x)
-        );
-
-        for (int i = 0; i < fileSprites.Length; i++)
+        if (!done)
         {
-            int fileNum = int.Parse(fileSprites[i].gameObject.name);
-            int expectedNumber = i + 1;
+            done = true;
+            System.Array.Sort(fileSprites, (a, b) =>
+                a.transform.position.x.CompareTo(b.transform.position.x)
+            );
 
-            if (fileNum != expectedNumber)
+            for (int i = 0; i < fileSprites.Length; i++)
             {
-                Debug.Log("Failed");
-                workParent.GetComponent<WorkWindowButton>().subtractWorkBar();
-                StartCoroutine(wrong());
-                return;
-            }
-        }
-        Debug.Log("Success");
-        workParent.GetComponent<WorkWindowButton>().addWorkBar();
-        transform.parent.GetComponent<Animator>().SetBool("close", true);
-        gameObject.SetActive(false);
+                int fileNum = int.Parse(fileSprites[i].gameObject.name);
+                int expectedNumber = i + 1;
 
+                if (fileNum != expectedNumber)
+                {
+                    Debug.Log("Failed");
+                    workParent.GetComponent<WorkWindowButton>().subtractWorkBar();
+                    StartCoroutine(wrong());
+                    return;
+                }
+            }
+            Debug.Log("Success");
+            workParent.GetComponent<WorkWindowButton>().addWorkBar();
+            transform.parent.GetComponent<Animator>().SetBool("close", true);
+            done = false;
+            gameObject.SetActive(false);
+        }
     }
 
     IEnumerator wrong()
@@ -67,6 +72,8 @@ public class SortingTask : MonoBehaviour
             elapsed += blinkInterval;
         }
         transform.parent.GetComponent<Animator>().SetBool("close", true);
+        done = false;
         gameObject.SetActive(false);
+        
     }
 }

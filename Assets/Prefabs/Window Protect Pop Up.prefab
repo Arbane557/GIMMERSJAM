@@ -467,6 +467,9 @@ MonoBehaviour:
   CornUI: {fileID: 0}
   Cow: {fileID: 0}
   CowUI: {fileID: 0}
+  Scare: {fileID: 0}
+  ScareUI: {fileID: 0}
+  Sound: {fileID: 0}
 --- !u!95 &7119640507287065954
 Animator:
   serializedVersion: 5
@@ -1052,7 +1055,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: 21300000, guid: 8f65bf07ebe3c4e49985b8fb3d751b9f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0d051207736a23449a19f7859934c30d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
@@ -16,9 +17,18 @@ public class AudioManager : MonoBehaviour
     public AudioClip hotMilkAdSound;
     public AudioClip incognitoPopupSound;
     public AudioClip jumpscareAdSound;
+    
+    public AudioClip[] AudioClips;
 
-    private void PlaySFX(AudioClip clip)
+    private void Update()
     {
-     SFXSource.PlayOneShot(clip);   
+        if (Input.GetMouseButtonDown(0))
+        {
+            PlaySFX(0);
+        }
+    }
+    public void PlaySFX(int num)
+    {
+        SFXSource.PlayOneShot(AudioClips[num]);   
     }
 }

@@ -30,6 +30,7 @@ public class PlayerMinigame : MonoBehaviour
         if (transform.position.y > maxHeight) maxHeight = transform.position.y;
         score.text = "Score : " + Mathf.RoundToInt(maxHeight);
         float movex = Input.GetAxisRaw("Horizontal");
+        transform.rotation = (movex >= 0 ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 180, 0));
         rb.velocity = new Vector2(movex * 3, rb.velocity.y);
 
         if(currHP < 1)
@@ -59,7 +60,7 @@ public class PlayerMinigame : MonoBehaviour
             currentPlatform = collision.gameObject;
             if (collision.gameObject == currentPlatform)
             {
-                currentPlatform.transform.localScale = new Vector2(currentPlatform.transform.localScale.x - 0.5f, currentPlatform.transform.localScale.y);
+                currentPlatform.transform.localScale = new Vector2(currentPlatform.transform.localScale.x - 0.15f, currentPlatform.transform.localScale.y);
                 if (currentPlatform.transform.localScale.x <= 0)
                 {
                     currentPlatform.GetComponent<Collider2D>().enabled = false;
@@ -76,7 +77,7 @@ public class PlayerMinigame : MonoBehaviour
         {
             return;
         }
-        currentPlatform.transform.localScale = new Vector2(1.81f, currentPlatform.transform.localScale.y);
+        currentPlatform.transform.localScale = new Vector2(0.75f, currentPlatform.transform.localScale.y);
         currentPlatform.GetComponent<Collider2D>().enabled = true;
         currentPlatform.GetComponent<SpriteRenderer>().enabled = true;
         transform.position = currentPlatform.transform.position + new Vector3(0, 1, 0);

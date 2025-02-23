@@ -15,6 +15,7 @@ public class MathTask : MonoBehaviour
     public Color red, normal;
     public float blinkDuration = 2f;
     public float blinkInterval = 0.2f;
+    bool done;
     private void OnEnable()
     {
         sum = "";
@@ -33,23 +34,28 @@ public class MathTask : MonoBehaviour
     }
     public void enter()
     {
-        if (sum == sumNum.ToString())
+        if (!done)
         {
-            Debug.Log("success");
-            workParent.GetComponent<WorkWindowButton>().addWorkBar();
-            transform.parent.GetComponent<Animator>().SetBool("close", true);
-            gameObject.SetActive(false);
+            done = true;
+            if (sum == sumNum.ToString())
+            {
+                Debug.Log("success");
+                workParent.GetComponent<WorkWindowButton>().addWorkBar();
+                transform.parent.GetComponent<Animator>().SetBool("close", true);
+                done = true;
+                gameObject.SetActive(false);
+            }
+            else
+            {
+                Debug.Log("failed");
+                workParent.GetComponent<WorkWindowButton>().subtractWorkBar();
+                StartCoroutine(wrong());
+            }
         }
-        else
-        {
-            Debug.Log("failed");
-            workParent.GetComponent<WorkWindowButton>().subtractWorkBar();
-            StartCoroutine(wrong());
-        }     
     }
     public void removeNumber()
     {
-        sum = sum.Remove(sum.Length - 1, 1);
+        if (sum != "") sum = sum.Remove(sum.Length - 1, 1);
     }
     IEnumerator wrong()
     {
@@ -63,6 +69,7 @@ public class MathTask : MonoBehaviour
             elapsed += blinkInterval;
         }
         transform.parent.GetComponent<Animator>().SetBool("close", true);
+        done = false;
         gameObject.SetActive(false);
     }
 }

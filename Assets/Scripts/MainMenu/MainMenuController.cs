@@ -4,12 +4,14 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.UI;
 public class MainMenuCo : MonoBehaviour
 {
     public TMP_InputField input;
     public GameObject StartObj;
     public GameObject End;
     public Animator animator;
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Return))
@@ -18,11 +20,13 @@ public class MainMenuCo : MonoBehaviour
             {
                 StartObj.SetActive(true);
                 animator.SetBool("start", true);
+                StartCoroutine(StartGame());
             }
             else if (string.Equals(input.text, "quit", System.StringComparison.OrdinalIgnoreCase))
             {
                 End.SetActive(true);
                 animator.SetBool("end", true);
+                StartCoroutine(QuitGame());
             }
             else
             {
@@ -30,13 +34,16 @@ public class MainMenuCo : MonoBehaviour
             }
         }
     }
-    public void PlayGame()
+
+    IEnumerator StartGame()
     {
+        yield return new WaitForSeconds(3);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
-    public void QuitGame()
+    IEnumerator QuitGame()
     {
+        yield return new WaitForSeconds(3);
         Application.Quit();
     }
-
+   
 }

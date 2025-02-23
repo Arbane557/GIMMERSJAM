@@ -20,7 +20,10 @@ public class TypingTask : MonoBehaviour
     public TMP_InputField instructionText;
     public GameObject workParent;
     private bool confirm;
-   
+    public Color red, normal;
+    public float blinkDuration = 2f;
+    public float blinkInterval = 0.2f;
+    bool done;
     private void OnEnable()
     {
         EventSystem.current.SetSelectedGameObject(null);
@@ -28,8 +31,9 @@ public class TypingTask : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return) && !done)
         {
+            done = true;
             Debug.Log("enter");
             confirmButton();
         }
@@ -50,15 +54,32 @@ public class TypingTask : MonoBehaviour
         {
             Debug.Log("success");
             workParent.GetComponent<WorkWindowButton>().addWorkBar();
+            transform.parent.GetComponent<Animator>().SetBool("close", true);
+            done = false;
+            gameObject.SetActive(false);
         }
         else 
         { 
             Debug.Log("failed"); 
-            workParent.GetComponent<WorkWindowButton>().subtractWorkBar(); 
+            workParent.GetComponent<WorkWindowButton>().subtractWorkBar();
+            StartCoroutine(wrong());
+        }
+         
+    }
+    IEnumerator wrong()
+    {
+        float elapsed = 0f;
+        while (elapsed < blinkDuration)
+        {
+            yield return new WaitForSeconds(blinkInterval);
+            transform.GetChild(0).transform.GetComponent<RawImage>().color = red;
+            yield return new WaitForSeconds(blinkInterval);
+            transform.GetChild(0).transform.GetComponent<RawImage>().color = normal;
+            elapsed += blinkInterval;
         }
         transform.parent.GetComponent<Animator>().SetBool("close", true);
+        done = false;
         gameObject.SetActive(false);
-        
-    }
 
+    }
 }

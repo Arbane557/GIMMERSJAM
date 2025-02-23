@@ -30,7 +30,7 @@ public class PlatformRandomSpawn : MonoBehaviour
 
         for (int i = platforms.Count - 1; i >= 0; i--)
         {
-            if (platforms[i].transform.position.y < player.transform.position.y - 5f)
+            if (platforms[i].transform.position.y < player.transform.position.y - 6.5f)
             {
                 Destroy(platforms[i]);
                 platforms.RemoveAt(i);
