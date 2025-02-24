@@ -12,6 +12,7 @@ public class WindowSpawn : MonoBehaviour
     public float startInterval = 5f; 
     public float minInterval = 2f; 
     public float decreaseRate = 0.01f;
+    public float spawnInterval;
     public AudioManager Sound;
 
     private void Start()
@@ -23,14 +24,15 @@ public class WindowSpawn : MonoBehaviour
     IEnumerator SpawnWindow()
 {
     float elapsedTime = 0f;
-    float spawnInterval = startInterval;
+    spawnInterval = startInterval;
 
     while (true)
     {
         GameObject prefab = GetRandomPrefab();
         Sound.PlaySFX(4);
         GameObject win = Instantiate(prefab);
-        Vector2 pos = new Vector3(Random.Range(minBounds.x, maxBounds.x), Random.Range(minBounds.y, maxBounds.y), -0.1f);
+        win.transform.parent = transform;
+        Vector2 pos = new Vector3(Random.Range(minBounds.x, maxBounds.x), Random.Range(minBounds.y, maxBounds.y), -0.1f * transform.childCount);
         win.transform.position = ClampBorder(pos);
 
         yield return new WaitForSeconds(spawnInterval);

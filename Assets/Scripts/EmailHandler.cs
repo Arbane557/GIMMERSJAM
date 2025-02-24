@@ -21,7 +21,6 @@ public class EmailHandler : MonoBehaviour
     {
         haveMails = !(notifCount == 0);
         notification.transform.parent.gameObject.SetActive(haveMails);
-
     }
     public void showMails()
     {

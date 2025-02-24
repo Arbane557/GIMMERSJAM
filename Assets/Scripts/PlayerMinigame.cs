@@ -116,11 +116,35 @@ public class PlayerMinigame : MonoBehaviour
         sr.enabled = true;
     }
 
-    IEnumerator lose()
+    public IEnumerator lose()
     {
         gameEssence.SetActive(false);
         Sound.gameObject.SetActive(false);
         yield return new WaitForSeconds(2);
+
+        Vector3 startPosition = gameWindow.transform.position;
+        Vector3 targetPosition = Vector3.zero;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            gameWindow.transform.position = Vector3.Lerp(startPosition, targetPosition, elapsed / duration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        gameWindow.transform.position = targetPosition;
+        yield return new WaitForSeconds(2);
+        gameWindow.SetActive(false);
+        gameoverScreen.SetActive(true);
+        yield return new WaitForSeconds(7);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+
+    }
+    public IEnumerator loseWork(GameObject gameWindow)
+    {
+        Sound.gameObject.SetActive(false);
+        yield return new WaitForSeconds(2);
+        transform.GetChild(0).gameObject.SetActive(true);
 
         Vector3 startPosition = gameWindow.transform.position;
         Vector3 targetPosition = Vector3.zero;

@@ -21,12 +21,14 @@ public class WorkWindowButton : MonoBehaviour
     public float reducing, gain, penalty;
     bool on;
     public AudioManager Sound;
+    public PlayerMinigame player;
     private void Start()
     {
         workBarCurr = 0.4f * workBarMax;
         notifCount = 0;
         StartCoroutine(generateTask());
         Sound = GameObject.FindGameObjectWithTag("Sound").GetComponent<AudioManager>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMinigame>();
     }
     private void Update()
     {
@@ -36,6 +38,10 @@ public class WorkWindowButton : MonoBehaviour
         if (workBarCurr < 0) workBarCurr = 0;
         on = !(notifCount == 0);
         notification.transform.parent.gameObject.SetActive(on);
+        if (workBarCurr <= 0)
+        {
+            StartCoroutine(player.loseWork(workBar.transform.parent.gameObject));
+        }
     }
     public void openWorkWindow()
     {
