@@ -15,27 +15,26 @@ public class EmailHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        notifCount = 1;
         on = false;
     }
     private void Update()
     {
+        notification.text = notifCount.ToString();
         haveMails = !(notifCount == 0);
         notification.transform.parent.gameObject.SetActive(haveMails);
     }
     public void showMails()
     {
         notifCount = 0;
-        on = !on;
-        if(on) Email.SetActive(on);
+        if(!Email.activeSelf) Email.SetActive(true);      
         else Email.GetComponent<Animator>().SetBool("close",true);
     }
 
     public void createMails(string from, string text)
     {
-        var mail = Instantiate(mailHolder);
-        mail.transform.parent = mailContainer;
+        var mail = Instantiate(mailHolder, mailContainer);
         mail.GetComponent<EmailData>().writeEmail(from, text);
         notifCount++;
-        notification.text = notifCount.ToString();
     }
 }

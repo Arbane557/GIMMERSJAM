@@ -25,7 +25,7 @@ public class WindowSpawn : MonoBehaviour
 {
     float elapsedTime = 0f;
     spawnInterval = startInterval;
-
+    yield return new WaitForSeconds(15);
     while (true)
     {
         GameObject prefab = GetRandomPrefab();

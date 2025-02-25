@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using System.Runtime.InteropServices;
 
 public class PlayerMinigame : MonoBehaviour
 {
@@ -21,21 +23,25 @@ public class PlayerMinigame : MonoBehaviour
     public GameObject gameEssence;
     public GameObject gameWindow;
     public GameObject gameoverScreen;
+    public GameObject platform;
     bool gameover;
     public float duration = 2.0f;
     public AudioManager Sound;
-
+    public WorkWindowButton wb;
+    private Coroutine win;
+    bool start;
+    public Button myButton;
     private void Start()
     {
-        currHP = maxHP; 
+        currHP = maxHP;
         maxHeight = 0;
         rb = GetComponent<Rigidbody2D>();
         Sound = GameObject.FindGameObjectWithTag("Sound").GetComponent<AudioManager>();
-
     }
 
     private void Update()
     {
+        myButton.onClick.AddListener(startGame);
         if (!gameover)
         {
             if (transform.position.y > maxHeight) maxHeight = transform.position.y;
@@ -62,6 +68,11 @@ public class PlayerMinigame : MonoBehaviour
             {
                 hearts[i].SetActive(i < currHP);
             }
+            if (Mathf.RoundToInt(maxHeight) >= 333 && win == null)
+            {
+                win = StartCoroutine(winGame());
+            }
+
         }
         else
         {
@@ -73,6 +84,7 @@ public class PlayerMinigame : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Platform") && rb.velocity.y <= 0)
         {
+            Sound.PlaySFX(11);
             rb.velocity = new Vector2(rb.velocity.x, bounceForce);
             currentPlatform = collision.gameObject;
             if (collision.gameObject == currentPlatform)
@@ -89,7 +101,8 @@ public class PlayerMinigame : MonoBehaviour
 
     void RevivePlayer()
     {
-        currHP--;
+
+        if (start) currHP--;
         if (currentPlatform == null)
         {
             return;
@@ -118,6 +131,7 @@ public class PlayerMinigame : MonoBehaviour
 
     public IEnumerator lose()
     {
+        Sound.PlaySFX(10);
         gameEssence.SetActive(false);
         Sound.gameObject.SetActive(false);
         yield return new WaitForSeconds(2);
@@ -140,16 +154,15 @@ public class PlayerMinigame : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
 
     }
-    public IEnumerator loseWork(GameObject gameWindow)
+
+    public IEnumerator winGame()
     {
-        Sound.gameObject.SetActive(false);
-        yield return new WaitForSeconds(2);
-        transform.GetChild(0).gameObject.SetActive(true);
-
+        StartCoroutine(wb.winGameFired());
         Vector3 startPosition = gameWindow.transform.position;
-        Vector3 targetPosition = Vector3.zero;
+        Vector3 targetPosition = new Vector3(-2.5f, 0, 0); ;
         float elapsed = 0f;
-
+        platform.SetActive(false);
+        GetComponent<Rigidbody2D>().gravityScale = 0;
         while (elapsed < duration)
         {
             gameWindow.transform.position = Vector3.Lerp(startPosition, targetPosition, elapsed / duration);
@@ -157,11 +170,11 @@ public class PlayerMinigame : MonoBehaviour
             yield return null;
         }
         gameWindow.transform.position = targetPosition;
-        yield return new WaitForSeconds(2);
-        gameWindow.SetActive(false);
-        gameoverScreen.SetActive(true);
-        yield return new WaitForSeconds(7);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
 
+    }
+
+    void startGame()
+    {
+        start = true;
     }
 }
